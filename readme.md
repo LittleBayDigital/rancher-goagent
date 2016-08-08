@@ -1,7 +1,7 @@
 rancher-gocd-agent
 =======================
 
-Builds a docker image for gocd agent based in rancher-base
+Builds a docker image for gocd agent based on `java:8-jre-alpine`.
 
 To build:
 
