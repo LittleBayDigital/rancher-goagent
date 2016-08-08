@@ -9,13 +9,6 @@ function log {
 function checkrancher {
     log "checking rancher network..."
 
-    a="`ip a s dev eth0 &> /dev/null; echo $?`" 
-    while  [ $a -eq 1 ];
-    do
-        a="`ip a s dev eth0 &> /dev/null; echo $?`" 
-        sleep 1
-    done
-
     b="`ping -c 1 rancher-metadata &> /dev/null; echo $?`"
     while [ $b -eq 1 ]; 
     do
