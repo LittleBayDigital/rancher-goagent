@@ -12,7 +12,7 @@ ENV GOCD_REPO=https://download.go.cd/binaries/${GOCD_VERSION}-${GOCD_REVISION}/g
   SERVER_WORK_DIR=${GOCD_HOME}/work
 
 # Install and configure gocd
-RUN apk add --update git curl bash && rm -rf /var/cache/apk/* \
+RUN apk add --no-cache --update git curl bash && rm -rf /var/cache/apk/* \
   && mkdir /opt /var/log/go-agent /var/run/go-agent \
   && cd /opt && curl -sSL ${GOCD_REPO}/${GOCD_RELEASE_ARCHIVE} -O && unzip ${GOCD_RELEASE_ARCHIVE} && rm ${GOCD_RELEASE_ARCHIVE} \
   && mv /opt/${GOCD_RELEASE}-${GOCD_VERSION} ${GOCD_HOME} \
