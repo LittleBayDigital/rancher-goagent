@@ -6,6 +6,8 @@ function log {
     echo `date` $ME - $@
 }
 
+RANCHER_METADATA=rancher-metadata.rancher.internal
+
 function checkrancher {
     log "checking rancher network..."
 
@@ -16,16 +18,16 @@ function checkrancher {
         sleep 1
     done
 
-    b="`ping -c 1 rancher-metadata.rancher.internal &> /dev/null; echo $?`"
+    b="`ping -c 1 ${RANCHER_METADATA} &> /dev/null; echo $?`"
     while [ $b -eq 1 ]; 
     do
-        b="`ping -c 1 rancher-metadata &> /dev/null; echo $?`"
+        b="`ping -c 1 ${RANCHER_METADATA} &> /dev/null; echo $?`"
         sleep 1 
     done
 }
 
 function installDocker {
-    DOCKER_SERVER_VERSION=$(curl http://rancher-metadata.rancher.internal/2015-12-19/self/host/labels/io.rancher.host.docker_version)
+    DOCKER_SERVER_VERSION=$(curl http://${RANCHER_METADATA}/2015-12-19/self/host/labels/io.rancher.host.docker_version)
 
     DOCKER_BIN=${DOCKER_BIN:-"/usr/bin/docker"}
     log "[ Checking Docker client ${DOCKER_VERSION} ... ]"
