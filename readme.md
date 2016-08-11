@@ -1,7 +1,9 @@
 rancher-gocd-agent
 =======================
 
-Builds a docker image for gocd agent based on `java:8-jre-alpine`.
+Builds a docker image for gocd agent based on the official `java:8-jre-alpine`. 
+
+This is a fork of [rawmind/rancher-goagent](https://hub.docker.com/r/rawmind/rancher-goagent/) without the extra `confd` nor `monit` dependencies.
 
 To build:
 
