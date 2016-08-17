@@ -1,4 +1,4 @@
-FROM java:8-jre-alpine
+FROM openjdk:8-jre-alpine
 MAINTAINER Yun Zhi Lin <yun@yunspace.com>
 
 # Set environment
