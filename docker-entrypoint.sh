@@ -66,10 +66,23 @@ function installDocker {
     fi
 }
 
+function savesshkey {
+    log "saving SSH key"
+
+    if [ ! -e "${USER_HOME}/.ssh" ]; then
+        mkdir ${USER_HOME}/.ssh
+    fi
+
+    echo "$SSH_KEY" > ${USER_HOME}/.ssh/id_rsa
+}
+
 checkrancher
 installDocker
+savesshkey
 
 echo `hostname` > /opt/go-agent/config/guid.txt
 
 log "[ Starting gocd agent... ]"
-/opt/go-agent/agent.sh
+exec /opt/go-agent/agent.sh
+
+exec "$@"

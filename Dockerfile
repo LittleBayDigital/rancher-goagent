@@ -19,10 +19,10 @@ RUN apk add --no-cache --update git curl bash openssh ca-certificates && rm -rf 
   && chmod 774 ${GOCD_HOME}/*.sh \
   && mkdir -p ${GOCD_HOME}/work 
 
-# Add start script
-ADD start.sh /usr/bin/start.sh
-RUN chmod +x /usr/bin/start.sh 
+# Add docker-entrypoint script
+ADD docker-entrypoint.sh /usr/bin/docker-entrypoint.sh
+RUN chmod +x /usr/bin/docker-entrypoint.sh 
 
 WORKDIR ${GOCD_HOME}
 
-ENTRYPOINT ["/usr/bin/start.sh"]
+ENTRYPOINT ["/usr/bin/docker-entrypoint.sh"]
