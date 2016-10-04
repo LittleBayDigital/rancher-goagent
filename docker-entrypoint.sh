@@ -73,12 +73,19 @@ function savesshkey {
         mkdir ${USER_HOME}/.ssh
     fi
 
-    echo "$SSH_KEY" > ${USER_HOME}/.ssh/id_rsa
+    printf "$SSH_KEY" > ${USER_HOME}/.ssh/id_rsa
+    chmod 600 ${USER_HOME}/.ssh/id_rsa
+}
+
+function disableAuthorizedKey {
+    log "disabling Authorized Key"
+    sed -ie "s/#PubkeyAuthentication yes/PubkeyAuthentication no/" /etc/ssh/sshd_config
 }
 
 checkrancher
 installDocker
 savesshkey
+disableAuthorizedKey
 
 echo `hostname` > /opt/go-agent/config/guid.txt
 
