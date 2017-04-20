@@ -2,9 +2,9 @@ FROM openjdk:8-jre-alpine
 MAINTAINER Yun Zhi Lin <yun@yunspace.com>
 
 # Set environment
-ENV GOCD_VERSION=16.7.0 \
+ENV GOCD_VERSION=17.1.0 \
   GOCD_RELEASE=go-agent \
-  GOCD_REVISION=3819 \
+  GOCD_REVISION=4511 \
   GOCD_HOME=/opt/go-agent \
   PATH=$GOCD_HOME:$PATH \
   USER_HOME=/root
