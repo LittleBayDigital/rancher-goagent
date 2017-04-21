@@ -11,18 +11,18 @@ RANCHER_METADATA=rancher-metadata.rancher.internal
 function checkrancher {
     log "checking rancher network..."
 
-    a="`ip a s dev eth0 &> /dev/null; echo $?`" 
+    a="`ip a s dev eth0 &> /dev/null; echo $?`"
     while  [ $a -eq 1 ];
     do
-        a="`ip a s dev eth0 &> /dev/null; echo $?`" 
+        a="`ip a s dev eth0 &> /dev/null; echo $?`"
         sleep 1
     done
 
     b="`ping -c 1 ${RANCHER_METADATA} &> /dev/null; echo $?`"
-    while [ $b -eq 1 ]; 
+    while [ $b -eq 1 ];
     do
         b="`ping -c 1 ${RANCHER_METADATA} &> /dev/null; echo $?`"
-        sleep 1 
+        sleep 1
     done
 }
 
@@ -47,16 +47,16 @@ function installDocker {
             "1.11")
                 DOCKER_VERSION="1.11.2"
             ;;
-            "1.12") 
+            "1.12")
                 DOCKER_VERSION="1.12.0"
             ;;
         esac
-        
+
         DOCKER_EXTRACT_FILE=${DOCKER_EXTRACT_FILE:-"docker/docker"}
 
         cd /tmp
-        curl -Ss https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz  | tar zxvf - ${DOCKER_EXTRACT_FILE} 
-        if [ $? -eq 0 ]; then 
+        curl -Ss https://get.docker.com/builds/Linux/x86_64/docker-${DOCKER_VERSION}.tgz  | tar zxvf - ${DOCKER_EXTRACT_FILE}
+        if [ $? -eq 0 ]; then
             chmod 755 /tmp/${DOCKER_EXTRACT_FILE}
             mv /tmp/${DOCKER_EXTRACT_FILE} ${DOCKER_BIN}
         else
@@ -66,15 +66,27 @@ function installDocker {
     fi
 }
 
-function savesshkey {
+function saveSshKey {
     log "saving SSH key"
 
     if [ ! -e "${USER_HOME}/.ssh" ]; then
         mkdir ${USER_HOME}/.ssh
     fi
 
-    printf "$SSH_KEY" > ${USER_HOME}/.ssh/id_rsa
-    chmod 600 ${USER_HOME}/.ssh/id_rsa
+    if [ -n "$SSH_KEY" ]; then
+        echo "$SSH_KEY" > ${USER_HOME}/.ssh/id_rsa
+        chmod 600 ${USER_HOME}/.ssh/id_rsa
+    fi
+
+}
+
+function saveSshConfig {
+    log "saving SSH config"
+
+    if [ -n "$SSH_CONFIG" ]; then
+        echo "$SSH_CONFIG" > ${USER_HOME}/.ssh/config
+        chmod 600 ${USER_HOME}/.ssh/config
+    fi
 }
 
 function disableAuthorizedKey {
@@ -84,7 +96,8 @@ function disableAuthorizedKey {
 
 checkrancher
 installDocker
-savesshkey
+saveSshkey
+saveSshConfig
 disableAuthorizedKey
 
 echo `hostname` > /opt/go-agent/config/guid.txt
