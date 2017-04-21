@@ -96,7 +96,7 @@ function disableAuthorizedKey {
 
 checkrancher
 installDocker
-saveSshkey
+saveSshKey
 saveSshConfig
 disableAuthorizedKey
 
