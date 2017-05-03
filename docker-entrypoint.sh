@@ -89,6 +89,15 @@ function saveSshConfig {
     fi
 }
 
+function saveGithubCreds {
+    log "saving GitHub Credentials"
+
+    if [ -n "$GITHUB_CREDENTIALS" ]; then
+        echo "$GITHUB_CREDENTIALS" > ${USER_HOME}/.github
+        chmod 600 ${USER_HOME}/.github
+    fi
+}
+
 function disableAuthorizedKey {
     log "disabling Authorized Key"
     sed -ie "s/#PubkeyAuthentication yes/PubkeyAuthentication no/" /etc/ssh/sshd_config
@@ -98,6 +107,7 @@ checkrancher
 installDocker
 saveSshKey
 saveSshConfig
+saveGithubCreds
 disableAuthorizedKey
 
 echo `hostname` > /opt/go-agent/config/guid.txt
